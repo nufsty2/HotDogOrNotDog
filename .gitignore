@@ -11,3 +11,7 @@
 .vscode/
 app/src/main/assets/model.pt
 pytorch/hotdog-model
+.project
+.settings/
+app/.classpath
+app/src/main/gen/com/cs428/hotdognothotdog/
