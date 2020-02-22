@@ -2,12 +2,16 @@ package com.cs428.hotdognothotdog.Model;
 
 import com.cs428.hotdognothotdog.Model.Interfaces.IHotDogIdentifier;
 import com.cs428.hotdognothotdog.Model.Interfaces.IImage;
+
 import android.graphics.Bitmap;
+
 import org.pytorch.IValue;
 import org.pytorch.Module;
 import org.pytorch.Tensor;
 import org.pytorch.torchvision.TensorImageUtils;
+
 import android.content.Context;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
