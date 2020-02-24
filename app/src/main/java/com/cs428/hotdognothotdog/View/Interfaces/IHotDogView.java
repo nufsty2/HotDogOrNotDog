@@ -7,4 +7,5 @@ public interface IHotDogView {
     void displayNotHotDog();
     Bitmap getDisplay();
     void clearDisplay();
+    void postToast(String message);
 }

@@ -4,8 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.HotDogView">
+    tools:context=".View.HotDogView"
+    android:orientation="vertical"
+    android:background="#000000">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="16"
+        android:background="@color/colorAccent" />
 
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:layout_weight="1"
+        android:layout_margin="1dp"
+        app:srcCompat="@android:drawable/ic_menu_camera"
+        android:background="@color/colorPrimary"/>
 
 </LinearLayout>
