@@ -28,7 +28,7 @@ public class HotDogIdentifier implements IHotDogIdentifier {
         // model.pt,
         // app/src/model/assets/model.pt
         // module = Module.load(assetFilePath(context, "model.pt"));
-        rand = new Random();
+        rand = new Random(5);
     }
 
     /**
