@@ -19,7 +19,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class HotDogIdentifier implements IHotDogIdentifier {
-    Module module;
+	Module module;
+	// TODO random functionality
 
     public HotDogIdentifier(Context context) throws IOException {
         // loading serialized torchscript module from packaged into app android asset
