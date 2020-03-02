@@ -3,7 +3,6 @@ package com.cs428.hotdognothotdog.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,11 +10,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.cs428.hotdognothotdog.Model.HotDogIdentifier;
+import com.cs428.hotdognothotdog.Model.Image;
+import com.cs428.hotdognothotdog.Model.Interfaces.IHotDogIdentifier;
+import com.cs428.hotdognothotdog.Model.Interfaces.IImage;
 import com.cs428.hotdognothotdog.R;
 import com.cs428.hotdognothotdog.View.Interfaces.IHotDogView;
 
@@ -28,6 +32,8 @@ public class HotDogView extends AppCompatActivity implements IHotDogView {
 
     private ImageButton imageButton;
     private ImageView imageView;
+    private Bitmap imageBitmap;
+
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
     @Override
@@ -96,11 +102,55 @@ public class HotDogView extends AppCompatActivity implements IHotDogView {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-//            Bundle extras = data.getExtras();
-//            Bitmap imageBitmap = (Bitmap) extras.get("data");
-//            imageView.setImageBitmap(imageBitmap);
             setPic();
+            analyzePhoto();
         }
+    }
+
+    private void analyzePhoto() {
+        IHotDogIdentifier hdi = null;
+        try {
+             hdi = new HotDogIdentifier(this);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            System.out.println("Ok boomer.");
+        }
+
+//        IImage image = new Image(imageBitmap);
+
+//        try {
+//            if (hdi.isHotDog(image)) {
+//                postToast("HotDog!");
+//            } else {
+//                postToast("NotHotDog! :(");
+//            }
+//        } catch (NullPointerException ex) {
+//            System.out.println("Caught " + ex.getMessage());
+//            ex.printStackTrace();
+//        }
+
+        Bitmap bitmap = null;
+        HotDogIdentifier hotDogIdentifier = null;
+        try {
+            // creating bitmap from packaged into app android asset 'image.jpg',
+            // app/src/main/assets/image.jpg
+            bitmap = BitmapFactory.decodeStream(getAssets().open("image.jpg"));
+            hotDogIdentifier = new HotDogIdentifier(this);
+        } catch (IOException e) {
+            Log.e("HotDog", "Error reading assets", e);
+            finish();
+        }
+
+        IImage image = new Image(bitmap);
+        boolean isHotDog = hotDogIdentifier.isHotDog(image);
+        if (isHotDog) {
+            postToast("HotDog!");
+        } else {
+            postToast("NotHotDog! :(");
+        }
+        Log.d("Value of isHotdog", String.valueOf(isHotDog));
+
+
     }
 
     private void setPic() {
@@ -123,8 +173,8 @@ public class HotDogView extends AppCompatActivity implements IHotDogView {
         bmOptions.inSampleSize = scaleFactor;
         bmOptions.inPurgeable = true;
 
-        Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
-        imageView.setImageBitmap(bitmap);
+        imageBitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
+        imageView.setImageBitmap(imageBitmap);
     }
 
 
@@ -151,7 +201,7 @@ public class HotDogView extends AppCompatActivity implements IHotDogView {
 
     @Override
     public void postToast(String message) {
-        Toast toast = Toast.makeText(HotDogView.this, message, Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(HotDogView.this, message, Toast.LENGTH_LONG);
         toast.show();
     }
 }

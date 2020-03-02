@@ -8,10 +8,10 @@ trainset-nothotdog = pytorch/train_set/not_hotdog/*
 android-model: $(output-file)
 
 $(output-file): $(python-file) $(model-file)
-	python $(python-file)
+	python3 $(python-file)
 
 $(model-file): $(model-creation-file) $(trainset-hotdog) $(trainset-nothotdog)
-	python $(model-creation-file)
+	python3 $(model-creation-file)
 
 clean:
 	rm $(output-file) $(model-file)
