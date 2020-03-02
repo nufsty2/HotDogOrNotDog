@@ -17,15 +17,18 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Random;
 
 public class HotDogIdentifier implements IHotDogIdentifier {
     Module module;
+    Random rand;
 
     public HotDogIdentifier(Context context) throws IOException {
         // loading serialized torchscript module from packaged into app android asset
         // model.pt,
         // app/src/model/assets/model.pt
-        module = Module.load(assetFilePath(context, "model.pt"));
+        // module = Module.load(assetFilePath(context, "model.pt"));
+        rand = new Random();
     }
 
     /**
@@ -54,19 +57,20 @@ public class HotDogIdentifier implements IHotDogIdentifier {
 
     @Override
     public boolean isHotDog(IImage potentialHotDog) {
-        Bitmap bitmap = potentialHotDog.getImageBitmap();
-
-
-        // preparing input tensor
-        final Tensor inputTensor = TensorImageUtils.bitmapToFloat32Tensor(bitmap,
-                TensorImageUtils.TORCHVISION_NORM_MEAN_RGB, TensorImageUtils.TORCHVISION_NORM_STD_RGB);
-
-        // running the model
-        final Tensor outputTensor = module.forward(IValue.from(inputTensor)).toTensor();
-
-        // getting tensor content as java array of floats
-        final float[] scores = outputTensor.getDataAsFloatArray();
-
-        return scores[0] > scores[1];
+//        Bitmap bitmap = potentialHotDog.getImageBitmap();
+//
+//
+//        // preparing input tensor
+//        final Tensor inputTensor = TensorImageUtils.bitmapToFloat32Tensor(bitmap,
+//                TensorImageUtils.TORCHVISION_NORM_MEAN_RGB, TensorImageUtils.TORCHVISION_NORM_STD_RGB);
+//
+//        // running the model
+//        final Tensor outputTensor = module.forward(IValue.from(inputTensor)).toTensor();
+//
+//        // getting tensor content as java array of floats
+//        final float[] scores = outputTensor.getDataAsFloatArray();
+//
+//        return scores[0] > scores[1];
+        return rand.nextBoolean();
     }
 }
