@@ -3,6 +3,9 @@ package com.cs428.hotdognothotdog.Model;
 import com.cs428.hotdognothotdog.Model.Interfaces.IHotDogIdentifier;
 import com.cs428.hotdognothotdog.Model.Interfaces.IImage;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 
 import org.pytorch.IValue;
@@ -11,6 +14,10 @@ import org.pytorch.Tensor;
 import org.pytorch.torchvision.TensorImageUtils;
 
 import android.content.Context;
+import android.os.Build;
+import android.util.Log;
+
+import androidx.core.app.ActivityCompat;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -20,11 +27,13 @@ import java.io.OutputStream;
 
 public class HotDogIdentifier implements IHotDogIdentifier {
     Module module;
+    Context context;
 
     public HotDogIdentifier(Context context) throws IOException {
         // loading serialized torchscript module from packaged into app android asset
         // model.pt,
         // app/src/model/assets/model.pt
+        this.context = context;
         module = Module.load(assetFilePath(context, "model.pt"));
     }
 
@@ -51,9 +60,28 @@ public class HotDogIdentifier implements IHotDogIdentifier {
             return file.getAbsolutePath();
         }
     }
+    public  boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (context.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v("HOTDOG","Permission is granted");
+                return true;
+            } else {
+
+                Log.v("HOTDOG","Permission is revoked");
+                ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            Log.v("HOTDOG","Permission is granted");
+            return true;
+        }
+    }
 
     @Override
     public boolean isHotDog(IImage potentialHotDog) {
+
         Bitmap bitmap = potentialHotDog.getImageBitmap();
 
 
