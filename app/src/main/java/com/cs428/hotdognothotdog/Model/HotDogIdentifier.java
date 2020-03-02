@@ -69,20 +69,8 @@ public class HotDogIdentifier implements IHotDogIdentifier {
                 return true;
             } else {
 
-                Log.v("HOTDOG","Permission is revoked");
-                ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-                return false;
-            }
-        }
-        else { //permission is automatically granted on sdk<23 upon installation
-            Log.v("HOTDOG","Permission is granted");
-            return true;
-        }
-    }
-
     @Override
-    public boolean isHotDog() {
-
+    public boolean isHotDog(IImage potentialHotDog) {
 //        Bitmap bitmap = potentialHotDog.getImageBitmap();
 //
 //
@@ -95,6 +83,8 @@ public class HotDogIdentifier implements IHotDogIdentifier {
 //
 //        // getting tensor content as java array of floats
 //        final float[] scores = outputTensor.getDataAsFloatArray();
+//
+//        return scores[0] > scores[1];
         Random rand = new Random();
         return rand.nextBoolean();
     }
