@@ -142,7 +142,7 @@ public class HotDogView extends AppCompatActivity implements IHotDogView {
         }
 
         IImage image = new Image(bitmap);
-        boolean isHotDog = hotDogIdentifier.isHotDog(image);
+        boolean isHotDog = hotDogIdentifier.isHotDog();
         if (isHotDog) {
             postToast("HotDog!");
         } else {

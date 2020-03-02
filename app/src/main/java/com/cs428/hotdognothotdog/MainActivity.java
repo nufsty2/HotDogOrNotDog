@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.i("HotDog", "HotDog created");
         IImage image = new Image(bitmap);
-        boolean isHotDog = hotDogIdentifier.isHotDog(image);
+        boolean isHotDog = hotDogIdentifier.isHotDog();
         Log.d("HotDog", String.valueOf(isHotDog));
 
 //        Intent myIntent = new Intent(MainActivity.this, HotDogView.class);
